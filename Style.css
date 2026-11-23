@@ -23,7 +23,7 @@ body {
 }
 
 /* =====================================
-   SCANNER
+   SCANNER ALLEEN SCANFRAME
 ===================================== */
 
 #reader {
@@ -32,29 +32,51 @@ body {
 
     max-width: 340px;
 
-    height: 90px;
+    height: 80px;
 
     margin: 0 auto 15px auto;
 
     overflow: hidden;
 
-    border-radius: 16px;
+    background: transparent;
 
-    background: white;
+    border: none;
 
 }
+
+/* camerabeeld verbergen */
 
 #reader video {
 
-    width: 340px !important;
+    opacity: 0;
 
-    height: 90px !important;
+    width: 1px !important;
 
-    object-fit: cover !important;
+    height: 1px !important;
+
+    position: absolute;
 
 }
 
-/* scanner bediening verbergen */
+/* scanframe zichtbaar houden */
+
+#reader__scan_region {
+
+    min-height: 80px !important;
+
+    background: transparent !important;
+
+}
+
+/* scan-afbeelding verbergen */
+
+#reader__scan_region img {
+
+    display: none !important;
+
+}
+
+/* camera-bediening verbergen */
 
 #reader__dashboard {
 
@@ -71,20 +93,6 @@ body {
 #reader__status_span {
 
     display: none !important;
-
-}
-
-#reader__scan_region img {
-
-    display: none !important;
-
-}
-
-#reader__scan_region {
-
-    min-height: 90px !important;
-
-    background: transparent !important;
 
 }
 
