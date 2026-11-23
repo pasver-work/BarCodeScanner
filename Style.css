@@ -281,4 +281,7 @@ input {
     .aantal-waarde {
         font-size: 34px !important;
     }
+   body {
+    background: red !important;
+
 }
