@@ -32,64 +32,30 @@ body {
 
     max-width: 340px;
 
-    height: 80px;
+    height: 90px;
 
     margin: 0 auto 15px auto;
 
     overflow: hidden;
 
-    background: transparent;
-
     border: none;
 
-}
+    border-radius: 12px;
 
-/* camerabeeld verbergen */
+}
 
 #reader video {
 
-    opacity: 0;
+    width: 100% !important;
 
-    width: 1px !important;
+    height: 90px !important;
 
-    height: 1px !important;
-
-    position: absolute;
+    object-fit: cover !important;
 
 }
 
-/* scanframe zichtbaar houden */
-
-#reader__scan_region {
-
-    min-height: 80px !important;
-
-    background: transparent !important;
-
-}
-
-/* scan-afbeelding verbergen */
-
-#reader__scan_region img {
-
-    display: none !important;
-
-}
-
-/* camera-bediening verbergen */
-
-#reader__dashboard {
-
-    display: none !important;
-
-}
-
-#reader__header_message {
-
-    display: none !important;
-
-}
-
+#reader__dashboard,
+#reader__header_message,
 #reader__status_span {
 
     display: none !important;
