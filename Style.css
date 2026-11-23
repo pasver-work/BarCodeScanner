@@ -42,9 +42,9 @@ body {
 
 #reader video {
 
-    width: 50% !important;
+    width: 100% !important;
 
-    max-height: 180px !important;
+    max-height: 80px !important;
 
     object-fit: cover !important;
 
