@@ -79,6 +79,7 @@ async function laadArtikelen() {
     catch (error) {
 
         console.error(
+            "Fout bij laden artikelen:",
             error
         );
 
@@ -98,7 +99,9 @@ function zoekArtikel(barcode) {
         );
 
     document
-        .getElementById("barcode")
+        .getElementById(
+            "barcode"
+        )
         .value =
         zoekwaarde;
 
@@ -126,16 +129,11 @@ function zoekArtikel(barcode) {
 <div class="detail-card">
 
 <div class="detail-title">
-
 Artikel niet gevonden
-
 </div>
 
 <div class="detail-text">
-
-Barcode:
-${zoekwaarde}
-
+Barcode: ${zoekwaarde}
 </div>
 
 </div>
@@ -157,51 +155,31 @@ ${zoekwaarde}
 <div class="detail-card">
 
 <div class="detail-title">
-
 Artikel Details
-
 </div>
 
 <div class="detail-text">
-
-<b>Artikel:</b>
-${artikel.artikel}
-
+<b>Artikel:</b> ${artikel.artikel}
 </div>
 
 <div class="detail-text">
-
-<b>Omschrijving:</b>
-${artikel.omschrijving}
-
+<b>Omschrijving:</b> ${artikel.omschrijving}
 </div>
 
 <div class="detail-text">
-
-<b>EAN/CE:</b>
-${artikel.eanCE}
-
+<b>EAN/CE:</b> ${artikel.eanCE}
 </div>
 
 <div class="detail-text">
-
-<b>EAN/HE:</b>
-${artikel.eanHE}
-
+<b>EAN/HE:</b> ${artikel.eanHE}
 </div>
 
 <div class="detail-text">
-
-<b>Leverancier:</b>
-${artikel.leverancier}
-
+<b>Leverancier:</b> ${artikel.leverancier}
 </div>
 
 <div class="detail-text">
-
-<b>VMI:</b>
-${artikel.vmi}
-
+<b>VMI:</b> ${artikel.vmi}
 </div>
 
 </div>
@@ -243,9 +221,7 @@ onclick="verhoogAantal()">
 <div class="section-card">
 
 <label class="field-label">
-
 Source
-
 </label>
 
 <select id="source">
@@ -262,9 +238,7 @@ Source
 <div class="section-card">
 
 <label class="field-label">
-
 Action
-
 </label>
 
 <select id="action">
@@ -432,75 +406,96 @@ VMI: ${huidigArtikel.vmi}`
 
 async function startScanner() {
 
-    const cameras =
-        await Html5Qrcode.getCameras();
+    try {
 
-    let cameraId =
-        cameras[cameras.length - 1].id;
+        const cameras =
+            await Html5Qrcode.getCameras();
 
-    const achterCamera =
+        if (!cameras.length) {
 
-        cameras.find(camera => {
-
-            const naam =
-                camera.label.toLowerCase();
-
-            return (
-                naam.includes("back") ||
-                naam.includes("rear")
+            alert(
+                "Geen camera gevonden"
             );
 
-        });
-
-    if (achterCamera) {
-
-        cameraId =
-            achterCamera.id;
-
-    }
-
-    scanner =
-        new Html5Qrcode(
-            "reader"
-        );
-
-    await scanner.start(
-
-        cameraId,
-
-        {
-            fps: 15,
-
-            qrbox: {
-                width: 320,
-                height: 120
-            },
-
-            formatsToSupport: [
-
-                Html5QrcodeSupportedFormats.EAN_13,
-                Html5QrcodeSupportedFormats.EAN_8,
-                Html5QrcodeSupportedFormats.UPC_A,
-                Html5QrcodeSupportedFormats.UPC_E,
-                Html5QrcodeSupportedFormats.CODE_128
-
-            ]
-
-        },
-
-        (barcode) => {
-
-            navigator.vibrate?.(100);
-
-            scanner.pause(true);
-
-            zoekArtikel(
-                barcode
-            );
+            return;
 
         }
 
-    );
+        let cameraId =
+            cameras[cameras.length - 1].id;
+
+        const achterCamera =
+            cameras.find(camera => {
+
+                const naam =
+                    camera.label.toLowerCase();
+
+                return (
+                    naam.includes("back") ||
+                    naam.includes("rear")
+                );
+
+            });
+
+        if (achterCamera) {
+
+            cameraId =
+                achterCamera.id;
+
+        }
+
+        scanner =
+            new Html5Qrcode(
+                "reader"
+            );
+
+        await scanner.start(
+
+            cameraId,
+
+            {
+                fps: 15,
+
+                qrbox: {
+                    width: 320,
+                    height: 120
+                },
+
+                formatsToSupport: [
+
+                    Html5QrcodeSupportedFormats.EAN_13,
+                    Html5QrcodeSupportedFormats.EAN_8,
+                    Html5QrcodeSupportedFormats.UPC_A,
+                    Html5QrcodeSupportedFormats.UPC_E,
+                    Html5QrcodeSupportedFormats.CODE_128
+
+                ]
+
+            },
+
+            (barcode) => {
+
+                navigator.vibrate?.(100);
+
+                scanner.pause(true);
+
+                zoekArtikel(
+                    barcode
+                );
+
+            }
+
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Scanner fout:",
+            error
+        );
+
+    }
 
 }
 
