@@ -1,14 +1,10 @@
-/* =====================================
-   PAGINA
-===================================== */
-
 body {
 
     margin: 0;
 
-    padding: 12px;
+    padding: 15px;
 
-    background: #f5f5f5;
+    background: #f6f6f6;
 
     font-family: Arial, sans-serif;
 
@@ -22,43 +18,39 @@ body {
 
 }
 
-/* =====================================
+/* ===========================
    SCANNER
-===================================== */
+=========================== */
 
 #reader {
 
-    width: 80%;
+    width: 100%;
 
-    max-width: 340px;
-
-    height: 70px;
+    max-width: 400px;
 
     margin: 0 auto 15px auto;
 
     overflow: hidden;
 
-    border-radius: 16px;
+    border-radius: 20px;
 
-    background: transparent;
+    background: white;
 
-    border: none;
+    border: 1px solid #d9d9d9;
 
 }
-
-/* Alleen scanstrook zichtbaar */
 
 #reader video {
 
-    width: 50% !important;
+    width: 100% !important;
 
-    height: 90px !important;
+    max-height: 180px !important;
 
-    
+    object-fit: cover !important;
 
 }
 
-/* Scanner bediening verbergen */
+/* Scanner knoppen verbergen */
 
 #reader__dashboard {
 
@@ -78,23 +70,25 @@ body {
 
 }
 
-#reader__scan_region img {
+/* ===========================
+   KAARTEN
+=========================== */
 
-    display: none !important;
+.section-card {
+
+    background: #f1f1f1;
+
+    border-radius: 22px;
+
+    padding: 18px;
+
+    margin-bottom: 15px;
 
 }
 
-#reader__scan_region {
-
-    min-height: 90px !important;
-
-    background: transparent !important;
-
-}
-
-/* =====================================
-   BARCODE VELD
-===================================== */
+/* ===========================
+   LABELS
+=========================== */
 
 .field-label {
 
@@ -108,33 +102,78 @@ body {
 
 }
 
+/* ===========================
+   INPUTS
+=========================== */
+
 input {
 
     width: 100%;
 
     box-sizing: border-box;
 
-    padding: 16px;
+    padding: 18px;
 
     border-radius: 10px;
 
-    border: 1px solid #cccccc;
-
-    background: white;
+    border: 1px solid #bbbbbb;
 
     font-size: 20px;
 
+    background: white;
+
 }
 
-/* =====================================
-   KAARTEN
-===================================== */
+select {
 
-.detail-card,
-.aantal-card,
-.section-card {
+    width: 100%;
 
-    background: #ececec;
+    padding: 18px;
+
+    border-radius: 10px;
+
+    border: 1px solid #bbbbbb;
+
+    font-size: 18px;
+
+    background: white;
+
+}
+
+/* ===========================
+   GELE KNOP
+=========================== */
+
+.zoek-button,
+.send-button {
+
+    width: 100%;
+
+    border: none;
+
+    border-radius: 35px;
+
+    padding: 18px;
+
+    background: #ffd500;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    color: black;
+
+    margin-bottom: 20px;
+
+}
+
+/* ===========================
+   DETAILS
+=========================== */
+
+.detail-card {
+
+    background: #efefef;
 
     border-radius: 22px;
 
@@ -142,17 +181,13 @@ input {
 
     margin-bottom: 15px;
 
-    text-align: center;
-
 }
 
 .detail-title {
 
-    font-size: 24px;
+    font-size: 28px;
 
-    font-weight: bold;
-
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 
 }
 
@@ -160,15 +195,25 @@ input {
 
     font-size: 18px;
 
-    line-height: 1.5;
-
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 
 }
 
-/* =====================================
+/* ===========================
    AANTAL
-===================================== */
+=========================== */
+
+.aantal-card {
+
+    background: #efefef;
+
+    border-radius: 22px;
+
+    padding: 18px;
+
+    margin-bottom: 15px;
+
+}
 
 .aantal-container {
 
@@ -178,7 +223,7 @@ input {
 
     align-items: center;
 
-    margin-top: 20px;
+    margin-top: 15px;
 
 }
 
@@ -190,87 +235,29 @@ input {
 
     border-radius: 35px;
 
-    border: none;
-
     background: #ffd500;
 
-    font-size: 30px;
+    border: none;
+
+    font-size: 28px;
 
     font-weight: bold;
-
-    cursor: pointer;
 
 }
 
 .aantal-waarde {
 
-    font-size: 48px;
+    font-size: 40px;
 
     font-weight: bold;
 
 }
 
-/* =====================================
-   DROPDOWNS
-===================================== */
-
-select {
-
-    width: 100%;
-
-    padding: 18px;
-
-    border-radius: 10px;
-
-    border: 1px solid #cccccc;
-
-    background: white;
-
-    font-size: 18px;
-
-}
-
-/* =====================================
-   KNOPPEN
-===================================== */
-
-.zoek-button,
-.send-button {
-
-    width: 100%;
-
-    padding: 18px;
-
-    border: none;
-
-    border-radius: 35px;
-
-    background: #ffd500;
-
-    color: black;
-
-    font-size: 24px;
-
-    font-weight: bold;
-
-    margin-bottom: 15px;
-
-    cursor: pointer;
-
-}
-
-.zoek-button:hover,
-.send-button:hover {
-
-    background: #f0c400;
-
-}
-
-/* =====================================
+/* ===========================
    MOBIEL
-===================================== */
+=========================== */
 
-@media screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
 
     body {
 
@@ -278,35 +265,9 @@ select {
 
     }
 
-    #reader {
-
-        max-width: 320px;
-
-        height: 80px;
-
-    }
-
-    #reader video {
-
-        height: 80px !important;
-
-    }
-
     .detail-title {
 
-        font-size: 22px;
-
-    }
-
-    .detail-text {
-
-        font-size: 17px;
-
-    }
-
-    .aantal-waarde {
-
-        font-size: 40px;
+        font-size: 24px;
 
     }
 
