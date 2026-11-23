@@ -393,43 +393,119 @@ VMI: ${huidigArtikel.vmi}`
 // SCANNER
 // =====================================
 
-function startScanner() {
+// =====================================
+// SCANNER
+// =====================================
 
-    const scanner =
-        new Html5QrcodeScanner(
+let scanner = null;
 
-            "reader",
+async function startScanner() {
+
+    try {
+
+        const cameras =
+            await Html5Qrcode.getCameras();
+
+        console.log(
+            "Camera's:",
+            cameras
+        );
+
+        if (!cameras.length) {
+
+            alert(
+                "Geen camera gevonden"
+            );
+
+            return;
+
+        }
+
+        let cameraId =
+            cameras[cameras.length - 1].id;
+
+        const achterCamera =
+
+            cameras.find(camera => {
+
+                const label =
+                    camera.label.toLowerCase();
+
+                return (
+                    label.includes("back") ||
+                    label.includes("rear")
+                );
+
+            });
+
+        if (achterCamera) {
+
+            cameraId =
+                achterCamera.id;
+
+        }
+
+        scanner =
+            new Html5Qrcode(
+                "reader"
+            );
+
+        await scanner.start(
+
+            cameraId,
 
             {
-                fps: 10,
-                qrbox: 250,
-                rememberLastUsedCamera: true
+                fps: 15,
+
+                qrbox: {
+                    width: 350,
+                    height: 180
+                },
+
+                formatsToSupport: [
+
+                    Html5QrcodeSupportedFormats.EAN_13,
+
+                    Html5QrcodeSupportedFormats.EAN_8,
+
+                    Html5QrcodeSupportedFormats.UPC_A,
+
+                    Html5QrcodeSupportedFormats.UPC_E,
+
+                    Html5QrcodeSupportedFormats.CODE_128
+
+                ]
+
             },
 
-            false
+            (barcode) => {
+
+                console.log(
+                    "Barcode gescand:",
+                    barcode
+                );
+
+                scanner.pause(true);
+
+                zoekArtikel(
+                    barcode
+                );
+
+            }
 
         );
 
-    scanner.render(
+    }
+    catch (err) {
 
-        (barcode) => {
+        console.error(
+            err
+        );
 
-            console.log(
-                "Gescand:",
-                barcode
-            );
-
-            zoekArtikel(
-                barcode
-            );
-
-        },
-
-        () => {}
-
-    );
+    }
 
 }
+
 
 // =====================================
 // APP START
