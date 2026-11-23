@@ -374,13 +374,47 @@ async function startScanner() {
         const cameras =
             await Html5Qrcode.getCameras();
 
-        if (!cameras.length) {
+        console.log(
+            "Beschikbare camera's:",
+            cameras
+        );
 
-            console.error(
-                "Geen camera gevonden"
+        let cameraId = null;
+
+        const achterCamera =
+            cameras.find(camera => {
+
+                const naam =
+                    camera.label.toLowerCase();
+
+                return (
+                    naam.includes("back") ||
+                    naam.includes("rear") ||
+                    naam.includes("environment")
+                );
+
+            });
+
+        if (achterCamera) {
+
+            cameraId =
+                achterCamera.id;
+
+            console.log(
+                "Achtercamera gevonden:",
+                achterCamera.label
             );
 
-            return;
+        }
+        else {
+
+            cameraId =
+                cameras[cameras.length - 1].id;
+
+            console.log(
+                "Laatste camera gebruikt"
+            );
+
         }
 
         scanner =
@@ -390,11 +424,14 @@ async function startScanner() {
 
         await scanner.start(
 
-            cameras[0].id,
+            cameraId,
 
             {
                 fps: 10,
-                qrbox: 250
+                qrbox: {
+                    width: 250,
+                    height: 250
+                }
             },
 
             (barcode) => {
@@ -414,6 +451,10 @@ async function startScanner() {
 
                 zoekArtikel();
 
+            },
+
+            () => {
+                // geen actie nodig
             }
 
         );
