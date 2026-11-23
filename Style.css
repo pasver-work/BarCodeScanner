@@ -130,9 +130,9 @@ input {
    KAARTEN
 ===================================== */
 
-.section-card,
 .detail-card,
-.aantal-card {
+.aantal-card,
+.section-card {
 
     background: #ececec;
 
@@ -141,6 +141,8 @@ input {
     padding: 18px;
 
     margin-bottom: 15px;
+
+    text-align: center;
 
 }
 
