@@ -2,6 +2,18 @@ let artikelen = [];
 let huidigArtikel = null;
 
 // =====================================
+// HULPFUNCTIES
+// =====================================
+
+function normaliseerBarcode(barcode) {
+
+    return String(barcode || "")
+        .replace(/\s/g, "")
+        .trim();
+
+}
+
+// =====================================
 // ARTIKELEN LADEN
 // =====================================
 
@@ -10,9 +22,7 @@ async function laadArtikelen() {
     try {
 
         const response =
-            await fetch(
-                "ArtikelenApp.csv"
-            );
+            await fetch("ArtikelenApp.csv");
 
         const csv =
             await response.text();
@@ -38,10 +48,14 @@ async function laadArtikelen() {
                     kolommen[1]?.trim() || "",
 
                 eanCE:
-                    kolommen[2]?.trim() || "",
+                    normaliseerBarcode(
+                        kolommen[2]
+                    ),
 
                 eanHE:
-                    kolommen[3]?.trim() || "",
+                    normaliseerBarcode(
+                        kolommen[3]
+                    ),
 
                 leverancier:
                     kolommen[4]?.trim() || "",
@@ -54,15 +68,14 @@ async function laadArtikelen() {
         }
 
         console.log(
-            artikelen.length +
-            " artikelen geladen"
+            "Artikelen geladen:",
+            artikelen.length
         );
 
     }
     catch (error) {
 
         console.error(
-            "Fout bij laden artikelen:",
             error
         );
 
@@ -71,28 +84,35 @@ async function laadArtikelen() {
 }
 
 // =====================================
-// ARTIKEL ZOEKEN
+// ZOEK ARTIKEL
 // =====================================
 
 function zoekArtikel(barcode) {
 
-    barcode =
-        barcode.trim();
+    const zoekwaarde =
+        normaliseerBarcode(
+            barcode
+        );
 
     console.log(
-        "Barcode gezocht:",
-        barcode
+        "Barcode:",
+        zoekwaarde
     );
 
     const artikel =
 
         artikelen.find(a =>
 
-            a.eanCE.trim() === barcode ||
+            a.eanCE === zoekwaarde ||
 
-            a.eanHE.trim() === barcode
+            a.eanHE === zoekwaarde
 
         );
+
+    console.log(
+        "Artikel gevonden:",
+        artikel
+    );
 
     if (!artikel) {
 
@@ -111,13 +131,14 @@ function zoekArtikel(barcode) {
 
 <p>
 Barcode:
-${barcode}
+${zoekwaarde}
 </p>
 
 </div>
 `;
 
         return;
+
     }
 
     huidigArtikel = artikel;
@@ -133,17 +154,25 @@ ${barcode}
 
 <h2>Artikel Details</h2>
 
-<p><b>Artikel:</b>
-${artikel.artikel}</p>
+<p>
+<b>Artikel:</b>
+${artikel.artikel}
+</p>
 
-<p><b>Omschrijving:</b>
-${artikel.omschrijving}</p>
+<p>
+<b>Omschrijving:</b>
+${artikel.omschrijving}
+</p>
 
-<p><b>Leverancier:</b>
-${artikel.leverancier}</p>
+<p>
+<b>Leverancier:</b>
+${artikel.leverancier}
+</p>
 
-<p><b>VMI:</b>
-${artikel.vmi}</p>
+<p>
+<b>VMI:</b>
+${artikel.vmi}
+</p>
 
 <hr>
 
@@ -244,15 +273,11 @@ function verhoogAantal() {
             "aantal"
         );
 
-    let aantal =
+    element.innerText =
         parseInt(
             element.innerText
-        );
+        ) + 1;
 
-    aantal++;
-
-    element.innerText =
-        aantal;
 }
 
 function verlaagAantal() {
@@ -267,7 +292,7 @@ function verlaagAantal() {
             element.innerText
         );
 
-    if(aantal > 1){
+    if (aantal > 1) {
 
         aantal--;
 
@@ -275,6 +300,7 @@ function verlaagAantal() {
 
     element.innerText =
         aantal;
+
 }
 
 // =====================================
@@ -290,27 +316,35 @@ function verstuurMelding() {
         );
 
         return;
+
     }
 
     const datumTijd =
-        new Date().toLocaleString(
+        new Date()
+        .toLocaleString(
             "nl-NL"
         );
 
     const aantal =
-        document.getElementById(
+        document
+        .getElementById(
             "aantal"
-        ).innerText;
+        )
+        .innerText;
 
     const source =
-        document.getElementById(
+        document
+        .getElementById(
             "source"
-        ).value;
+        )
+        .value;
 
     const action =
-        document.getElementById(
+        document
+        .getElementById(
             "action"
-        ).value;
+        )
+        .value;
 
     alert(
 
@@ -337,6 +371,7 @@ VMI: ${huidigArtikel.vmi}`
         .innerHTML = "";
 
     huidigArtikel = null;
+
 }
 
 // =====================================
@@ -352,16 +387,8 @@ function startScanner() {
 
             {
                 fps: 10,
-
-                qrbox: {
-                    width: 300,
-                    height: 150
-                },
-
-                rememberLastUsedCamera: true,
-
-                supportedScanTypes: [0]
-
+                qrbox: 250,
+                rememberLastUsedCamera: true
             },
 
             false
@@ -373,7 +400,7 @@ function startScanner() {
         (barcode) => {
 
             console.log(
-                "Barcode gescand:",
+                "Gescand:",
                 barcode
             );
 
@@ -383,18 +410,14 @@ function startScanner() {
 
         },
 
-        (error) => {
-
-            // negeren
-
-        }
+        () => {}
 
     );
 
 }
 
 // =====================================
-// START APP
+// APP START
 // =====================================
 
 window.onload = async () => {
