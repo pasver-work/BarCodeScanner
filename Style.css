@@ -108,7 +108,7 @@ select {
 
 .zoek-button,
 .send-button {
-    width: 100%;
+    width: 300%;
     border: none;
     border-radius: 30px;
     padding: 13px;
