@@ -38,10 +38,10 @@ body {
 
 #reader video {
     width: 100% !important;
-    max-height: 115px !important;
+    max-height: 60px !important;
     object-fit: cover !important;
     border: none !important;
-    border-radius: 0 !important;
+    border-radius: 16 !important;
 }
 
 /* Scanner knoppen verbergen */
