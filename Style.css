@@ -50,9 +50,9 @@ body {
 
 #reader video {
 
-    width: 100% !important;
+    width: 5% !important;
 
-    height: 90px !important;
+    height: 10px !important;
 
     object-fit: cover !important;
 
