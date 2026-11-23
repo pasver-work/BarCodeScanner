@@ -38,7 +38,7 @@ body {
 
 #reader video {
     width: 100% !important;
-    max-height: 11px !important;
+    max-height: 115px !important;
     object-fit: cover !important;
     border: none !important;
     border-radius: 0 !important;
