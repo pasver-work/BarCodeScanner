@@ -1,9 +1,6 @@
 let artikelen = [];
 let huidigArtikel = null;
-
-// =====================================
-// HULPFUNCTIES
-// =====================================
+let scanner = null;
 
 function normaliseerBarcode(barcode) {
 
@@ -19,72 +16,63 @@ function normaliseerBarcode(barcode) {
 
 async function laadArtikelen() {
 
-    try {
+    const response =
+        await fetch(
+            "ArtikelenApp.csv"
+        );
 
-        const response =
-            await fetch("ArtikelenApp.csv");
+    const csv =
+        await response.text();
 
-        const csv =
-            await response.text();
+    const regels =
+        csv.split(/\r?\n/);
 
-        const regels =
-            csv.split(/\r?\n/);
+    for(let i = 1; i < regels.length; i++) {
 
-        for (let i = 1; i < regels.length; i++) {
-
-            if (!regels[i].trim()) {
-                continue;
-            }
-
-            const kolommen =
-                regels[i].split("|");
-
-            artikelen.push({
-
-                artikel:
-                    kolommen[0]?.trim() || "",
-
-                omschrijving:
-                    kolommen[1]?.trim() || "",
-
-                eanCE:
-                    normaliseerBarcode(
-                        kolommen[2]
-                    ),
-
-                eanHE:
-                    normaliseerBarcode(
-                        kolommen[3]
-                    ),
-
-                leverancier:
-                    kolommen[4]?.trim() || "",
-
-                vmi:
-                    kolommen[5]?.trim() || ""
-
-            });
-
+        if(!regels[i].trim()) {
+            continue;
         }
 
-        console.log(
-            "Artikelen geladen:",
-            artikelen.length
-        );
+        const kolommen =
+            regels[i].split("|");
+
+        artikelen.push({
+
+            artikel:
+                kolommen[0]?.trim() || "",
+
+            omschrijving:
+                kolommen[1]?.trim() || "",
+
+            eanCE:
+                normaliseerBarcode(
+                    kolommen[2]
+                ),
+
+            eanHE:
+                normaliseerBarcode(
+                    kolommen[3]
+                ),
+
+            leverancier:
+                kolommen[4]?.trim() || "",
+
+            vmi:
+                kolommen[5]?.trim() || ""
+
+        });
 
     }
-    catch (error) {
 
-        console.error(
-            error
-        );
-
-    }
+    console.log(
+        artikelen.length +
+        " artikelen geladen"
+    );
 
 }
 
 // =====================================
-// ZOEK ARTIKEL
+// ZOEKEN
 // =====================================
 
 function zoekArtikel(barcode) {
@@ -94,44 +82,17 @@ function zoekArtikel(barcode) {
             barcode
         );
 
-    console.log(
-        "Barcode:",
-        zoekwaarde
-    );
+    const artikel =
 
-   console.log("Zoekwaarde:", zoekwaarde);
+        artikelen.find(a =>
 
-const matches =
-    artikelen.filter(a =>
+            a.eanCE === zoekwaarde ||
 
-        a.eanCE.includes(zoekwaarde) ||
-        a.eanHE.includes(zoekwaarde) ||
-        zoekwaarde.includes(a.eanCE) ||
-        zoekwaarde.includes(a.eanHE)
+            a.eanHE === zoekwaarde
 
-    );
+        );
 
-console.log("Matches:", matches);
-
-const artikel =
-
-    artikelen.find(a =>
-
-        a.eanCE === zoekwaarde ||
-
-        a.eanHE === zoekwaarde
-
-    );
-
-
-    console.log(
-        "Artikel gevonden:",
-        artikel
-    );
-
-    if (!artikel) {
-
-        huidigArtikel = null;
+    if(!artikel){
 
         document
             .getElementById(
@@ -139,18 +100,10 @@ const artikel =
             )
             .innerHTML =
 
-`
-<div class="card">
-
-<h2>Artikel niet gevonden</h2>
-
-<p>
-Barcode:
-${zoekwaarde}
-</p>
-
-</div>
-`;
+            `<div class="card">
+                <h2>Artikel niet gevonden</h2>
+                <p>${zoekwaarde}</p>
+            </div>`;
 
         return;
 
@@ -169,25 +122,13 @@ ${zoekwaarde}
 
 <h2>Artikel Details</h2>
 
-<p>
-<b>Artikel:</b>
-${artikel.artikel}
-</p>
+<p><b>Artikel:</b> ${artikel.artikel}</p>
 
-<p>
-<b>Omschrijving:</b>
-${artikel.omschrijving}
-</p>
+<p><b>Omschrijving:</b> ${artikel.omschrijving}</p>
 
-<p>
-<b>Leverancier:</b>
-${artikel.leverancier}
-</p>
+<p><b>Leverancier:</b> ${artikel.leverancier}</p>
 
-<p>
-<b>VMI:</b>
-${artikel.vmi}
-</p>
+<p><b>VMI:</b> ${artikel.vmi}</p>
 
 <hr>
 
@@ -196,34 +137,26 @@ ${artikel.vmi}
 <button
 class="aantal-knop"
 onclick="verlaagAantal()">
-
 -
-
 </button>
 
 <span
 id="aantal"
 class="aantal-waarde">
-
 1
-
 </span>
 
 <button
 class="aantal-knop"
 onclick="verhoogAantal()">
-
 +
-
 </button>
 
 </div>
 
 <br>
 
-<label>
-Source
-</label>
+<label>Source</label>
 
 <select id="source">
 
@@ -236,9 +169,7 @@ Source
 
 <br><br>
 
-<label>
-Action
-</label>
+<label>Action</label>
 
 <select id="action">
 
@@ -283,37 +214,37 @@ Verstuur
 
 function verhoogAantal() {
 
-    const element =
+    const el =
         document.getElementById(
             "aantal"
         );
 
-    element.innerText =
+    el.innerText =
         parseInt(
-            element.innerText
+            el.innerText
         ) + 1;
 
 }
 
 function verlaagAantal() {
 
-    const element =
+    const el =
         document.getElementById(
             "aantal"
         );
 
     let aantal =
         parseInt(
-            element.innerText
+            el.innerText
         );
 
-    if (aantal > 1) {
+    if(aantal > 1){
 
         aantal--;
 
     }
 
-    element.innerText =
+    el.innerText =
         aantal;
 
 }
@@ -324,14 +255,8 @@ function verlaagAantal() {
 
 function verstuurMelding() {
 
-    if (!huidigArtikel) {
-
-        alert(
-            "Scan eerst een artikel"
-        );
-
+    if(!huidigArtikel){
         return;
-
     }
 
     const datumTijd =
@@ -387,128 +312,89 @@ VMI: ${huidigArtikel.vmi}`
 
     huidigArtikel = null;
 
+    scanner.resume();
+
 }
 
 // =====================================
 // SCANNER
 // =====================================
-
-// =====================================
-// SCANNER
-// =====================================
-
-let scanner = null;
 
 async function startScanner() {
 
-    try {
+    const cameras =
+        await Html5Qrcode.getCameras();
 
-        const cameras =
-            await Html5Qrcode.getCameras();
+    let cameraId =
+        cameras[cameras.length - 1].id;
 
-        console.log(
-            "Camera's:",
-            cameras
+    const achterCamera =
+        cameras.find(camera => {
+
+            const naam =
+                camera.label.toLowerCase();
+
+            return (
+                naam.includes("back") ||
+                naam.includes("rear")
+            );
+
+        });
+
+    if(achterCamera){
+
+        cameraId =
+            achterCamera.id;
+
+    }
+
+    scanner =
+        new Html5Qrcode(
+            "reader"
         );
 
-        if (!cameras.length) {
+    await scanner.start(
 
-            alert(
-                "Geen camera gevonden"
-            );
+        cameraId,
 
-            return;
+        {
+            fps: 15,
 
-        }
-
-        let cameraId =
-            cameras[cameras.length - 1].id;
-
-        const achterCamera =
-
-            cameras.find(camera => {
-
-                const label =
-                    camera.label.toLowerCase();
-
-                return (
-                    label.includes("back") ||
-                    label.includes("rear")
-                );
-
-            });
-
-        if (achterCamera) {
-
-            cameraId =
-                achterCamera.id;
-
-        }
-
-        scanner =
-            new Html5Qrcode(
-                "reader"
-            );
-
-        await scanner.start(
-
-            cameraId,
-
-            {
-                fps: 15,
-
-                qrbox: {
-                    width: 350,
-                    height: 180
-                },
-
-                formatsToSupport: [
-
-                    Html5QrcodeSupportedFormats.EAN_13,
-
-                    Html5QrcodeSupportedFormats.EAN_8,
-
-                    Html5QrcodeSupportedFormats.UPC_A,
-
-                    Html5QrcodeSupportedFormats.UPC_E,
-
-                    Html5QrcodeSupportedFormats.CODE_128
-
-                ]
-
+            qrbox: {
+                width: 320,
+                height: 120
             },
 
-            (barcode) => {
+            formatsToSupport: [
 
-                console.log(
-                    "Barcode gescand:",
-                    barcode
-                );
+                Html5QrcodeSupportedFormats.EAN_13,
+                Html5QrcodeSupportedFormats.EAN_8,
+                Html5QrcodeSupportedFormats.UPC_A,
+                Html5QrcodeSupportedFormats.UPC_E,
+                Html5QrcodeSupportedFormats.CODE_128
 
-                scanner.pause(true);
+            ]
 
-                zoekArtikel(
-                    barcode
-                );
+        },
 
-            }
+        (barcode) => {
 
-        );
+            navigator.vibrate?.(100);
 
-    }
-    catch (err) {
+            scanner.pause(true);
 
-        console.error(
-            err
-        );
+            zoekArtikel(
+                barcode
+            );
 
-    }
+        }
+
+    );
 
 }
 
-
 // =====================================
-// APP START
+// START
 // =====================================
 
 window.onload = async () => {
