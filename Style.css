@@ -16,44 +16,35 @@ body {
 
 .container {
     width: 100%;
-    max-width: 350px;
+    max-width: 400px;
     margin: auto;
 }
 
 /* ===========================
-   SCANNER ZONDER KADER
+   CAMERA SCANNER
 =========================== */
 
 #reader {
     width: 100%;
-    max-width: 350px;
-    margin: 0 auto 10px auto;
+    margin: 0 auto 12px auto;
+    padding: 0 !important;
     overflow: hidden;
     border: none !important;
-    border-radius: 0 !important;
-    background: transparent;
-    padding: 0 !important;
-    box-shadow: none !important;
+    border-radius: 20px;
+    background: #111;
 }
 
 #reader video {
     width: 100% !important;
-    max-height: 60px !important;
+    height: 290px !important;
+    max-height: 290px !important;
     object-fit: cover !important;
     border: none !important;
-    border-radius: 16 !important;
+    border-radius: 20px;
 }
 
-/* Scanner knoppen verbergen */
-
-#reader__dashboard {
-    display: none !important;
-}
-
-#reader__header_message {
-    display: none !important;
-}
-
+#reader__dashboard,
+#reader__header_message,
 #reader__status_span {
     display: none !important;
 }
@@ -62,11 +53,14 @@ body {
    KAARTEN
 =========================== */
 
-.section-card {
-    background: #f6f6f6;
-    border-radius: 16px;
-    padding: 12px;
-    margin-bottom: 10px;
+.section-card,
+.detail-card,
+.aantal-card {
+    background: #d6d6d3;
+    border-radius: 20px;
+    padding: 14px;
+    margin-bottom: 12px;
+    width: 100%;
 }
 
 /* ===========================
@@ -75,71 +69,64 @@ body {
 
 .field-label {
     display: block;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 7px;
+    font-size: 19px;
+    font-weight: normal;
+    margin-bottom: 10px;
 }
 
 /* ===========================
    INPUTS
 =========================== */
 
-input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 9px;
-    border: 1px solid #bbbbbb;
-    font-size: 17px;
-    background: white;
-}
-
+input,
 select {
     width: 100%;
-    padding: 12px;
-    border-radius: 9px;
-    border: 1px solid #bbbbbb;
-    font-size: 16px;
-    background: white;
+    padding: 17px;
+    border-radius: 7px;
+    border: 1px solid #888;
+    font-size: 18px;
+    background: #f6f6f6;
+    color: #333;
 }
 
 /* ===========================
-   GELE KNOP
+   GELE KNOPPEN
 =========================== */
 
 .zoek-button,
 .send-button {
-    width: 300%;
+    width: 100%;
     border: none;
-    border-radius: 30px;
-    padding: 13px;
-    background: #ffd500;
-    font-size: 20px;
-    font-weight: bold;
-    color: black;
+    border-radius: 40px;
+    padding: 19px 12px;
+    background: #f5c400;
+    font-size: 21px;
+    font-weight: normal;
+    color: #222;
     margin-bottom: 12px;
 }
 
 /* ===========================
-   DETAILS
+   ARTIKEL DETAILS
 =========================== */
 
 .detail-card {
-    background: #726f6f;
-    border-radius: 16px;
-    padding: 13px;
-    margin-bottom: 10px;
-    border-radius: 20px;
-   text-align: center;
+    background: #d6d6d3;
+    padding: 17px;
 }
 
 .detail-title {
-    font-size: 23px;
-    margin-bottom: 12px;
+    font-size: 26px;
+    margin: 0 0 18px 0;
+    font-weight: normal;
+    color: #292929;
 }
 
 .detail-text {
-    font-size: 16px;
-    margin-bottom: 6px;
+    font-size: 17px;
+    margin-bottom: 5px;
+    color: #292929;
+    overflow-wrap: anywhere;
 }
 
 /* ===========================
@@ -147,39 +134,51 @@ select {
 =========================== */
 
 .aantal-card {
-    background: #726f6f;
-    border-radius: 16px;
-    padding: 13px;
-    margin-bottom: 10px;
+    background: #d6d6d3;
+    padding: 15px;
 }
 
 .aantal-container {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 
 .aantal-knop {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    background: #ffd500;
+    width: 75px;
+    height: 65px;
+    border-radius: 35px;
+    background: #f5c400;
     border: none;
-    font-size: 24px;
+    font-size: 27px;
     font-weight: bold;
 }
 
 .aantal-waarde {
-    font-size: 32px;
-    font-weight: bold;
+    font-size: 38px;
+    font-weight: normal;
+    color: #222;
 }
 
 /* ===========================
-   KLEINE TELEFOONS
+   SOURCE EN ACTION
 =========================== */
 
-@media only screen and (max-width: 380px) {
+.section-card .field-label {
+    margin-top: 10px;
+}
+
+.section-card select {
+    margin-bottom: 15px;
+    min-height: 65px;
+}
+
+/* ===========================
+   MOBIEL
+=========================== */
+
+@media (max-width: 380px) {
 
     body {
         padding: 6px;
@@ -190,11 +189,12 @@ select {
     }
 
     #reader video {
-        max-height: 50px !important;
+        height: 230px !important;
+        max-height: 230px !important;
     }
 
     .detail-title {
-        font-size: 21px;
+        font-size: 23px;
     }
 
     .detail-text {
@@ -203,12 +203,12 @@ select {
 
     input,
     select {
-        padding: 10px;
         font-size: 16px;
+        padding: 13px;
     }
 
     .aantal-knop {
-        width: 48px;
-        height: 48px;
+        width: 60px;
+        height: 55px;
     }
 }
