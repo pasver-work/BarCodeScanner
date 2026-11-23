@@ -25,17 +25,15 @@ body {
 #reader {
     width: 100%;
     max-width: 320px;
-    height: 80px;
+    height: 60px;
     margin: 0 auto 10px auto;
     overflow: hidden;
     border-radius: 12px;
-    background: #ffffff;
 }
-
 
 #reader video {
     width: 100% !important;
-    height: 80px !important;
+    height: 60px !important;
     object-fit: cover !important;
 }
 
