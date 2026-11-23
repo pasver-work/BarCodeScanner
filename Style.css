@@ -128,6 +128,8 @@ select {
     border-radius: 16px;
     padding: 13px;
     margin-bottom: 10px;
+    border-radius: 20px;
+   text-align: center;
 }
 
 .detail-title {
