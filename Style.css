@@ -1,0 +1,176 @@
+/* =====================================
+   ALGEMEEN
+===================================== */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #222222;
+    margin-bottom: 20px;
+}
+
+/* =====================================
+   SCANNER
+===================================== */
+
+#reader {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 20px auto;
+    overflow: hidden;
+    border-radius: 10px;
+    background: white;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* =====================================
+   INPUTS
+===================================== */
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    font-size: 18px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    background-color: white;
+}
+
+/* =====================================
+   KNOPPEN
+===================================== */
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ffd500;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f4ca00;
+}
+
+/* =====================================
+   RESULTAAT KAART
+===================================== */
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+.card p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.card hr {
+    margin: 20px 0;
+}
+
+/* =====================================
+   AANTALBEDIENING
+===================================== */
+
+.aantal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.aantal-knop {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.aantal-waarde {
+    font-size: 28px;
+    font-weight: bold;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* =====================================
+   LABELS
+===================================== */
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* =====================================
+   VERSTUUR KNOP
+===================================== */
+
+.send-button {
+    margin-top: 20px;
+    background-color: #ffd500;
+    color: black;
+}
+
+.send-button:hover {
+    background-color: #ffd500;
+}
+
+/* =====================================
+   MOBIEL
+===================================== */
+
+@media screen and (max-width: 600px) {
+
+    body {
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    input,
+    select,
+    button {
+        font-size: 16px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+}
