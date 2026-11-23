@@ -12,7 +12,7 @@ body {
 
 .container {
 
-    max-width: 450px;
+    max-width: 350px;
 
     margin: auto;
 
@@ -34,7 +34,7 @@ body {
 
     border-radius: 20px;
 
-    background: white;
+    background: rgb(156, 149, 149);
 
     border: 2px solid #d9d9d9;
 
@@ -42,9 +42,9 @@ body {
 
 #reader video {
 
-    width: 10% !important;
+    width: 100% !important;
 
-    max-height: 25px !important;
+    max-height: 100px !important;
 
     object-fit: cover !important;
 
@@ -76,7 +76,7 @@ body {
 
 .section-card {
 
-    background: #f1f1f1;
+    background: #f6f6f6;
 
     border-radius: 22px;
 
@@ -173,7 +173,7 @@ select {
 
 .detail-card {
 
-    background: #efefef;
+    background: #726f6f;
 
     border-radius: 22px;
 
@@ -205,7 +205,7 @@ select {
 
 .aantal-card {
 
-    background: #efefef;
+    background: #726f6f;
 
     border-radius: 22px;
 
