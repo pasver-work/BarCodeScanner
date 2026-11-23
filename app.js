@@ -99,15 +99,30 @@ function zoekArtikel(barcode) {
         zoekwaarde
     );
 
-    const artikel =
+   console.log("Zoekwaarde:", zoekwaarde);
 
-        artikelen.find(a =>
+const matches =
+    artikelen.filter(a =>
 
-            a.eanCE === zoekwaarde ||
+        a.eanCE.includes(zoekwaarde) ||
+        a.eanHE.includes(zoekwaarde) ||
+        zoekwaarde.includes(a.eanCE) ||
+        zoekwaarde.includes(a.eanHE)
 
-            a.eanHE === zoekwaarde
+    );
 
-        );
+console.log("Matches:", matches);
+
+const artikel =
+
+    artikelen.find(a =>
+
+        a.eanCE === zoekwaarde ||
+
+        a.eanHE === zoekwaarde
+
+    );
+
 
     console.log(
         "Artikel gevonden:",
