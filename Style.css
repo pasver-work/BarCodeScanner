@@ -1,7 +1,3 @@
-/* =====================================
-   PAGINA
-===================================== */
-
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
@@ -12,33 +8,27 @@ body {
 
 h1 {
     text-align: center;
-    color: #222;
-    margin-bottom: 15px;
-    font-size: 26px;
+    font-size: 24px;
+    margin-bottom: 10px;
 }
-
-/* =====================================
-   SCANNER
-===================================== */
 
 #reader {
     width: 100%;
-    max-width: 350px;
-    margin: 0 auto 15px auto;
+    max-width: 320px;
+    margin: 0 auto 10px auto;
     border-radius: 10px;
     overflow: hidden;
+    border: 1px solid #d9d9d9;
     background: white;
 }
 
-/* Camera beeld kleiner */
-
 #reader video {
     width: 100% !important;
-    max-height: 180px !important;
+    max-height: 140px !important;
     object-fit: cover !important;
 }
 
-/* Scanner dashboard uitzetten */
+/* Verberg camera keuzescherm */
 
 #reader__dashboard {
     display: none !important;
@@ -52,71 +42,42 @@ h1 {
     display: none !important;
 }
 
-#reader__scan_region img {
-    display: none !important;
-}
-
-/* =====================================
-   VERBORGEN BARCODEVELD
-===================================== */
-
 #barcode {
     display: none;
 }
-
-/* =====================================
-   RESULT KAART
-===================================== */
 
 .card {
     background: white;
     border-radius: 10px;
     padding: 18px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    margin-top: 10px;
-}
-
-.card h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.10);
 }
 
 .card p {
-    margin: 12px 0;
-    line-height: 1.4;
+    margin: 10px 0;
 }
-
-/* =====================================
-   AANTAL
-===================================== */
 
 .aantal-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 15px;
-    margin: 20px 0;
 }
 
 .aantal-knop {
-    width: 55px !important;
-    height: 55px !important;
-    border-radius: 50% !important;
-    font-size: 28px !important;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 24px;
     font-weight: bold;
-    background-color: #ffd500;
+    border: none;
+    background: #ffd500;
 }
 
 .aantal-waarde {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
-    min-width: 40px;
-    text-align: center;
 }
-
-/* =====================================
-   DROPDOWNS
-===================================== */
 
 label {
     display: block;
@@ -127,55 +88,17 @@ label {
 select {
     width: 100%;
     padding: 12px;
-    font-size: 16px;
     border-radius: 8px;
     border: 1px solid #cccccc;
-    margin-bottom: 15px;
-}
-
-/* =====================================
-   KNOPPEN
-===================================== */
-
-button {
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
 }
 
 .send-button {
     width: 100%;
-    padding: 15px;
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #28a745;
+    padding: 14px;
+    background: #28a745;
     color: white;
-}
-
-.send-button:hover {
-    background-color: #218838;
-}
-
-/* =====================================
-   MOBIEL
-===================================== */
-
-@media screen and (max-width: 600px) {
-
-    body {
-        padding: 12px;
-    }
-
-    #reader {
-        max-width: 320px;
-    }
-
-    #reader video {
-        max-height: 160px !important;
-    }
-
-    h1 {
-        font-size: 22px;
-    }
-
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 18px;
 }
