@@ -1,104 +1,274 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    max-width: 450px;
-    margin: 0 auto;
+
+    margin: 0;
+
     padding: 15px;
+
+    background: #f6f6f6;
+
+    font-family: Arial, sans-serif;
+
 }
 
-h1 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 10px;
+.container {
+
+    max-width: 450px;
+
+    margin: auto;
+
 }
+
+/* ===========================
+   SCANNER
+=========================== */
 
 #reader {
+
     width: 100%;
-    max-width: 320px;
-    margin: 0 auto 10px auto;
-    border-radius: 10px;
+
+    max-width: 400px;
+
+    margin: 0 auto 15px auto;
+
     overflow: hidden;
-    border: 1px solid #d9d9d9;
+
+    border-radius: 20px;
+
     background: white;
+
+    border: 1px solid #d9d9d9;
+
 }
 
 #reader video {
+
     width: 100% !important;
-    max-height: 140px !important;
+
+    max-height: 180px !important;
+
     object-fit: cover !important;
+
 }
 
-/* Verberg camera keuzescherm */
+/* Scanner knoppen verbergen */
 
 #reader__dashboard {
+
     display: none !important;
+
 }
 
 #reader__header_message {
+
     display: none !important;
+
 }
 
 #reader__status_span {
+
     display: none !important;
+
 }
 
-#barcode {
-    display: none;
-}
+/* ===========================
+   KAARTEN
+=========================== */
 
-.card {
-    background: white;
-    border-radius: 10px;
+.section-card {
+
+    background: #efefef;
+
+    border-radius: 22px;
+
     padding: 18px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+
+    margin-bottom: 15px;
+
 }
 
-.card p {
-    margin: 10px 0;
-}
+/* ===========================
+   LABELS
+=========================== */
 
-.aantal-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-}
+.field-label {
 
-.aantal-knop {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    font-size: 24px;
-    font-weight: bold;
-    border: none;
-    background: #ffd500;
-}
-
-.aantal-waarde {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-label {
     display: block;
-    margin-bottom: 5px;
+
+    font-size: 18px;
+
     font-weight: bold;
+
+    margin-bottom: 10px;
+
+}
+
+/* ===========================
+   INPUTS
+=========================== */
+
+input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 18px;
+
+    border-radius: 10px;
+
+    border: 1px solid #bbbbbb;
+
+    font-size: 20px;
+
+    background: white;
+
 }
 
 select {
+
     width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #cccccc;
+
+    padding: 18px;
+
+    border-radius: 10px;
+
+    border: 1px solid #bbbbbb;
+
+    font-size: 18px;
+
+    background: white;
+
 }
 
+/* ===========================
+   GELE KNOP
+=========================== */
+
+.zoek-button,
 .send-button {
+
     width: 100%;
-    padding: 14px;
-    background: #28a745;
-    color: white;
+
     border: none;
-    border-radius: 8px;
+
+    border-radius: 35px;
+
+    padding: 18px;
+
+    background: #ffd500;
+
+    font-size: 24px;
+
     font-weight: bold;
+
+    color: black;
+
+    margin-bottom: 20px;
+
+}
+
+/* ===========================
+   DETAILS
+=========================== */
+
+.detail-card {
+
+    background: #efefef;
+
+    border-radius: 22px;
+
+    padding: 18px;
+
+    margin-bottom: 15px;
+
+}
+
+.detail-title {
+
+    font-size: 28px;
+
+    margin-bottom: 20px;
+
+}
+
+.detail-text {
+
     font-size: 18px;
+
+    margin-bottom: 8px;
+
+}
+
+/* ===========================
+   AANTAL
+=========================== */
+
+.aantal-card {
+
+    background: #efefef;
+
+    border-radius: 22px;
+
+    padding: 18px;
+
+    margin-bottom: 15px;
+
+}
+
+.aantal-container {
+
+    display: flex;
+
+    justify-content: space-around;
+
+    align-items: center;
+
+    margin-top: 15px;
+
+}
+
+.aantal-knop {
+
+    width: 70px;
+
+    height: 70px;
+
+    border-radius: 35px;
+
+    background: #ffd500;
+
+    border: none;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+}
+
+.aantal-waarde {
+
+    font-size: 40px;
+
+    font-weight: bold;
+
+}
+
+/* ===========================
+   MOBIEL
+=========================== */
+
+@media only screen and (max-width: 600px) {
+
+    body {
+
+        padding: 10px;
+
+    }
+
+    .detail-title {
+
+        font-size: 24px;
+
+    }
+
 }
