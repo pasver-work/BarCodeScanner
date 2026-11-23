@@ -190,7 +190,7 @@ select {
     }
 
     #reader video {
-        max-height: 100px !important;
+        max-height: 50px !important;
     }
 
     .detail-title {
