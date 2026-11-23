@@ -2,6 +2,10 @@ let artikelen = [];
 let huidigArtikel = null;
 let scanner = null;
 
+// =====================================
+// HULPFUNCTIES
+// =====================================
+
 function normaliseerBarcode(barcode) {
 
     return String(barcode || "")
@@ -16,63 +20,74 @@ function normaliseerBarcode(barcode) {
 
 async function laadArtikelen() {
 
-    const response =
-        await fetch(
-            "ArtikelenApp.csv"
-        );
+    try {
 
-    const csv =
-        await response.text();
+        const response =
+            await fetch(
+                "ArtikelenApp.csv"
+            );
 
-    const regels =
-        csv.split(/\r?\n/);
+        const csv =
+            await response.text();
 
-    for(let i = 1; i < regels.length; i++) {
+        const regels =
+            csv.split(/\r?\n/);
 
-        if(!regels[i].trim()) {
-            continue;
+        for (let i = 1; i < regels.length; i++) {
+
+            if (!regels[i].trim()) {
+                continue;
+            }
+
+            const kolommen =
+                regels[i].split("|");
+
+            artikelen.push({
+
+                artikel:
+                    kolommen[0]?.trim() || "",
+
+                omschrijving:
+                    kolommen[1]?.trim() || "",
+
+                eanCE:
+                    normaliseerBarcode(
+                        kolommen[2]
+                    ),
+
+                eanHE:
+                    normaliseerBarcode(
+                        kolommen[3]
+                    ),
+
+                leverancier:
+                    kolommen[4]?.trim() || "",
+
+                vmi:
+                    kolommen[5]?.trim() || ""
+
+            });
+
         }
 
-        const kolommen =
-            regels[i].split("|");
-
-        artikelen.push({
-
-            artikel:
-                kolommen[0]?.trim() || "",
-
-            omschrijving:
-                kolommen[1]?.trim() || "",
-
-            eanCE:
-                normaliseerBarcode(
-                    kolommen[2]
-                ),
-
-            eanHE:
-                normaliseerBarcode(
-                    kolommen[3]
-                ),
-
-            leverancier:
-                kolommen[4]?.trim() || "",
-
-            vmi:
-                kolommen[5]?.trim() || ""
-
-        });
+        console.log(
+            "Artikelen geladen:",
+            artikelen.length
+        );
 
     }
+    catch (error) {
 
-    console.log(
-        artikelen.length +
-        " artikelen geladen"
-    );
+        console.error(
+            error
+        );
+
+    }
 
 }
 
 // =====================================
-// ZOEKEN
+// ARTIKEL ZOEKEN
 // =====================================
 
 function zoekArtikel(barcode) {
@@ -81,6 +96,11 @@ function zoekArtikel(barcode) {
         normaliseerBarcode(
             barcode
         );
+
+    document
+        .getElementById("barcode")
+        .value =
+        zoekwaarde;
 
     const artikel =
 
@@ -92,7 +112,9 @@ function zoekArtikel(barcode) {
 
         );
 
-    if(!artikel){
+    if (!artikel) {
+
+        huidigArtikel = null;
 
         document
             .getElementById(
@@ -100,10 +122,24 @@ function zoekArtikel(barcode) {
             )
             .innerHTML =
 
-            `<div class="card">
-                <h2>Artikel niet gevonden</h2>
-                <p>${zoekwaarde}</p>
-            </div>`;
+`
+<div class="detail-card">
+
+<div class="detail-title">
+
+Artikel niet gevonden
+
+</div>
+
+<div class="detail-text">
+
+Barcode:
+${zoekwaarde}
+
+</div>
+
+</div>
+`;
 
         return;
 
@@ -118,45 +154,99 @@ function zoekArtikel(barcode) {
         .innerHTML =
 
 `
-<div class="card">
+<div class="detail-card">
 
-<h2>Artikel Details</h2>
+<div class="detail-title">
 
-<p><b>Artikel:</b> ${artikel.artikel}</p>
+Artikel Details
 
-<p><b>Omschrijving:</b> ${artikel.omschrijving}</p>
+</div>
 
-<p><b>Leverancier:</b> ${artikel.leverancier}</p>
+<div class="detail-text">
 
-<p><b>VMI:</b> ${artikel.vmi}</p>
+<b>Artikel:</b>
+${artikel.artikel}
 
-<hr>
+</div>
+
+<div class="detail-text">
+
+<b>Omschrijving:</b>
+${artikel.omschrijving}
+
+</div>
+
+<div class="detail-text">
+
+<b>EAN/CE:</b>
+${artikel.eanCE}
+
+</div>
+
+<div class="detail-text">
+
+<b>EAN/HE:</b>
+${artikel.eanHE}
+
+</div>
+
+<div class="detail-text">
+
+<b>Leverancier:</b>
+${artikel.leverancier}
+
+</div>
+
+<div class="detail-text">
+
+<b>VMI:</b>
+${artikel.vmi}
+
+</div>
+
+</div>
+
+<div class="aantal-card">
+
+<h2>Aantal</h2>
 
 <div class="aantal-container">
 
 <button
 class="aantal-knop"
 onclick="verlaagAantal()">
+
 -
+
 </button>
 
 <span
 id="aantal"
 class="aantal-waarde">
+
 1
+
 </span>
 
 <button
 class="aantal-knop"
 onclick="verhoogAantal()">
+
 +
+
 </button>
 
 </div>
 
-<br>
+</div>
 
-<label>Source</label>
+<div class="section-card">
+
+<label class="field-label">
+
+Source
+
+</label>
 
 <select id="source">
 
@@ -167,9 +257,15 @@ onclick="verhoogAantal()">
 
 </select>
 
-<br><br>
+</div>
 
-<label>Action</label>
+<div class="section-card">
+
+<label class="field-label">
+
+Action
+
+</label>
 
 <select id="action">
 
@@ -193,17 +289,15 @@ onclick="verhoogAantal()">
 
 </select>
 
-<br><br>
+</div>
 
 <button
 class="send-button"
 onclick="verstuurMelding()">
 
-Verstuur
+VERSTUUR
 
 </button>
-
-</div>
 `;
 
 }
@@ -214,37 +308,37 @@ Verstuur
 
 function verhoogAantal() {
 
-    const el =
+    const element =
         document.getElementById(
             "aantal"
         );
 
-    el.innerText =
+    element.innerText =
         parseInt(
-            el.innerText
+            element.innerText
         ) + 1;
 
 }
 
 function verlaagAantal() {
 
-    const el =
+    const element =
         document.getElementById(
             "aantal"
         );
 
     let aantal =
         parseInt(
-            el.innerText
+            element.innerText
         );
 
-    if(aantal > 1){
+    if (aantal > 1) {
 
         aantal--;
 
     }
 
-    el.innerText =
+    element.innerText =
         aantal;
 
 }
@@ -255,8 +349,14 @@ function verlaagAantal() {
 
 function verstuurMelding() {
 
-    if(!huidigArtikel){
+    if (!huidigArtikel) {
+
+        alert(
+            "Scan eerst een artikel."
+        );
+
         return;
+
     }
 
     const datumTijd =
@@ -306,13 +406,23 @@ VMI: ${huidigArtikel.vmi}`
 
     document
         .getElementById(
+            "barcode"
+        )
+        .value = "";
+
+    document
+        .getElementById(
             "resultaat"
         )
         .innerHTML = "";
 
     huidigArtikel = null;
 
-    scanner.resume();
+    if (scanner) {
+
+        scanner.resume();
+
+    }
 
 }
 
@@ -329,6 +439,7 @@ async function startScanner() {
         cameras[cameras.length - 1].id;
 
     const achterCamera =
+
         cameras.find(camera => {
 
             const naam =
@@ -341,7 +452,7 @@ async function startScanner() {
 
         });
 
-    if(achterCamera){
+    if (achterCamera) {
 
         cameraId =
             achterCamera.id;
@@ -394,7 +505,7 @@ async function startScanner() {
 }
 
 // =====================================
-// START
+// START APP
 // =====================================
 
 window.onload = async () => {
