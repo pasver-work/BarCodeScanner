@@ -1,5 +1,4 @@
 let artikelen = [];
-let scanner = null;
 let huidigArtikel = null;
 
 // =====================================
@@ -12,7 +11,7 @@ async function laadArtikelen() {
 
         const response =
             await fetch(
-                "Artikelen/ArtikelenApp.csv"
+                "ArtikelenApp.csv"
             );
 
         const csv =
@@ -75,14 +74,10 @@ async function laadArtikelen() {
 // ARTIKEL ZOEKEN
 // =====================================
 
-function zoekArtikel() {
+function zoekArtikel(barcode) {
 
-    const barcode =
-
-        document
-        .getElementById("barcode")
-        .value
-        .trim();
+    barcode =
+        barcode.trim();
 
     console.log(
         "Barcode gezocht:",
@@ -93,9 +88,9 @@ function zoekArtikel() {
 
         artikelen.find(a =>
 
-            a.eanCE === barcode ||
+            a.eanCE.trim() === barcode ||
 
-            a.eanHE === barcode
+            a.eanHE.trim() === barcode
 
         );
 
@@ -104,7 +99,9 @@ function zoekArtikel() {
         huidigArtikel = null;
 
         document
-            .getElementById("resultaat")
+            .getElementById(
+                "resultaat"
+            )
             .innerHTML =
 
 `
@@ -126,7 +123,9 @@ ${barcode}
     huidigArtikel = artikel;
 
     document
-        .getElementById("resultaat")
+        .getElementById(
+            "resultaat"
+        )
         .innerHTML =
 
 `
@@ -134,25 +133,17 @@ ${barcode}
 
 <h2>Artikel Details</h2>
 
-<p>
-<b>Artikel:</b>
-${artikel.artikel}
-</p>
+<p><b>Artikel:</b>
+${artikel.artikel}</p>
 
-<p>
-<b>Omschrijving:</b>
-${artikel.omschrijving}
-</p>
+<p><b>Omschrijving:</b>
+${artikel.omschrijving}</p>
 
-<p>
-<b>Leverancier:</b>
-${artikel.leverancier}
-</p>
+<p><b>Leverancier:</b>
+${artikel.leverancier}</p>
 
-<p>
-<b>VMI:</b>
-${artikel.vmi}
-</p>
+<p><b>VMI:</b>
+${artikel.vmi}</p>
 
 <hr>
 
@@ -216,7 +207,7 @@ Action
 <option>4834 Nieuw Bergen</option>
 <option>4848 Jumbo Den Bosch Rompertpassage</option>
 <option>4864 Jumbo Heeswijk Dinther</option>
-<option>4892 Jumbo Rosmnalen</option>
+<option>4892 Jumbo Rosmalen</option>
 <option>4897 Jumbo Schijndel Rooiseheide</option>
 <option>4909 Uden Muziekplein</option>
 <option>4989 Jumbo Parkstraat Nistelrode</option>
@@ -276,7 +267,7 @@ function verlaagAantal() {
             element.innerText
         );
 
-    if (aantal > 1) {
+    if(aantal > 1){
 
         aantal--;
 
@@ -292,10 +283,10 @@ function verlaagAantal() {
 
 function verstuurMelding() {
 
-    if (huidigArtikel === null) {
+    if (!huidigArtikel) {
 
         alert(
-            "Scan eerst een artikel."
+            "Scan eerst een artikel"
         );
 
         return;
@@ -307,21 +298,21 @@ function verstuurMelding() {
         );
 
     const aantal =
-        document
-        .getElementById("aantal")
-        .innerText;
+        document.getElementById(
+            "aantal"
+        ).innerText;
 
     const source =
-        document
-        .getElementById("source")
-        .value;
+        document.getElementById(
+            "source"
+        ).value;
 
     const action =
-        document
-        .getElementById("action")
-        .value;
+        document.getElementById(
+            "action"
+        ).value;
 
-    const melding =
+    alert(
 
 `Datum en tijd: ${datumTijd}
 
@@ -335,17 +326,9 @@ Action: ${action}
 
 Source: ${source}
 
-VMI: ${huidigArtikel.vmi}`;
+VMI: ${huidigArtikel.vmi}`
 
-    alert(melding);
-
-    console.log(melding);
-
-    document
-        .getElementById(
-            "barcode"
-        )
-        .value = "";
+    );
 
     document
         .getElementById(
@@ -354,120 +337,59 @@ VMI: ${huidigArtikel.vmi}`;
         .innerHTML = "";
 
     huidigArtikel = null;
-
-    if (scanner) {
-
-        scanner.resume();
-
-    }
-
 }
 
 // =====================================
-// CAMERA
+// SCANNER
 // =====================================
 
-async function startScanner() {
+function startScanner() {
 
-    try {
+    const scanner =
+        new Html5QrcodeScanner(
 
-        const cameras =
-            await Html5Qrcode.getCameras();
-
-        console.log(
-            "Beschikbare camera's:",
-            cameras
-        );
-
-        let cameraId = null;
-
-        const achterCamera =
-            cameras.find(camera => {
-
-                const naam =
-                    camera.label.toLowerCase();
-
-                return (
-                    naam.includes("back") ||
-                    naam.includes("rear") ||
-                    naam.includes("environment")
-                );
-
-            });
-
-        if (achterCamera) {
-
-            cameraId =
-                achterCamera.id;
-
-            console.log(
-                "Achtercamera gevonden:",
-                achterCamera.label
-            );
-
-        }
-        else {
-
-            cameraId =
-                cameras[cameras.length - 1].id;
-
-            console.log(
-                "Laatste camera gebruikt"
-            );
-
-        }
-
-        scanner =
-            new Html5Qrcode(
-                "reader"
-            );
-
-        await scanner.start(
-
-            cameraId,
+            "reader",
 
             {
                 fps: 10,
+
                 qrbox: {
-                    width: 250,
-                    height: 250
-                }
-            },
+                    width: 300,
+                    height: 150
+                },
 
-            (barcode) => {
+                rememberLastUsedCamera: true,
 
-                scanner.pause(true);
-
-                console.log(
-                    "Gescand:",
-                    barcode
-                );
-
-                document
-                    .getElementById(
-                        "barcode"
-                    )
-                    .value = barcode;
-
-                zoekArtikel();
+                supportedScanTypes: [0]
 
             },
 
-            () => {
-                // geen actie nodig
-            }
+            false
 
         );
 
-    }
-    catch (error) {
+    scanner.render(
 
-        console.error(
-            "Scanner fout:",
-            error
-        );
+        (barcode) => {
 
-    }
+            console.log(
+                "Barcode gescand:",
+                barcode
+            );
+
+            zoekArtikel(
+                barcode
+            );
+
+        },
+
+        (error) => {
+
+            // negeren
+
+        }
+
+    );
 
 }
 
